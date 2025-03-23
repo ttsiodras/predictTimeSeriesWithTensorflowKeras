@@ -1,10 +1,13 @@
+MODEL:=rnn_model.keras
+TRAINING_SET:=data
+
 all:	generate train predict
 
-generate:	data
+generate:	${TRAINING_SET}
 
-train:	rnn_model.keras
+train:	${MODEL}
 
-rnn_model.keras:	train.py data
+${MODEL}:	train.py ${TRAINING_SET}
 	./$<
 
 predict:
@@ -13,4 +16,7 @@ predict:
 data:	generator.py
 	./$< > $@
 
-.PHONY: generate visualize predict
+clean:
+	rm -f ${TRAINING_SET} ${MODEL}
+
+.PHONY: generate visualize predict clean
